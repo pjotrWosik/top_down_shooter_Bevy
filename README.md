@@ -15,6 +15,9 @@ A simple top-down game built with Bevy 0.18 and Avian Physics 0.6.
 - Player rotates towards mouse cursor
 - Physics-based movement with gravity
 - Custom 3D player model (GLB)
+- you can shoot
+- there are enemies
+- you can kill em
 
 ## Controls
 
@@ -25,6 +28,7 @@ A simple top-down game built with Bevy 0.18 and Avian Physics 0.6.
 | A | Move left |
 | D | Move right |
 | Mouse | Rotate player |
+| LPM | shoot the gun |
 
 ## Project Structure
 
