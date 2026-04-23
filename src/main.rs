@@ -81,10 +81,20 @@ fn setup(
     ))
     .with_children(|parent| {
         parent.spawn((
-            SceneRoot(asset_server.load("player.glb#Scene0")),
-            Transform::from_xyz(0.0, 1.0, 0.0),
+            SceneRoot(asset_server.load("SWAT.glb#Scene0")),
+            Transform::from_xyz(0.0, -1.0, 0.0)
+            .with_rotation(Quat::from_rotation_y(std::f32::consts::PI)),
+        ))
+    .with_children(|parent| {
+        parent.spawn((
+            SceneRoot(asset_server.load("Assault Rifle.glb#Scene0")),
+            Transform::from_xyz(0.1, 1.4, 0.7)
+            .with_rotation(Quat::from_rotation_y(std::f32::consts::PI))
+            .with_scale(Vec3::splat(0.2)),
         ));
     });
+    });
+    
 
     // Wrug
     commands.spawn((
