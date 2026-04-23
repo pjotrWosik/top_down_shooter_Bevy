@@ -44,3 +44,5 @@ Project/
 ## Running
 
 cargo run
+
+i think i can count this project as finished i will no longer update it (i think)
