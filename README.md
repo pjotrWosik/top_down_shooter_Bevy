@@ -19,6 +19,7 @@ A simple top-down game built with Bevy 0.18 and Avian Physics 0.6.
 - there are enemies
 - you can kill em
 - enemies are now spawning around you and after kiling 5 or 7 ur whole map is filled with em
+- some free models rile&player
 
 ## Controls
 
@@ -43,5 +44,3 @@ Project/
 ## Running
 
 cargo run
-
-now i will take care of asstes like rifles player or enemies
