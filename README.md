@@ -18,6 +18,7 @@ A simple top-down game built with Bevy 0.18 and Avian Physics 0.6.
 - you can shoot
 - there are enemies
 - you can kill em
+- enemies are now spawning around you and after kiling 5 or 7 ur whole map is filled with em
 
 ## Controls
 
@@ -44,3 +45,5 @@ Project/
 cargo run
 
 c ya guys and i hope i will make it look like HD1
+take kare guys 
+now i will take care of asstes like rifles player or enemies
