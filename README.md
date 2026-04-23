@@ -44,6 +44,4 @@ Project/
 
 cargo run
 
-c ya guys and i hope i will make it look like HD1
-take kare guys 
 now i will take care of asstes like rifles player or enemies
