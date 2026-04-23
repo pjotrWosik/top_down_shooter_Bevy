@@ -19,13 +19,22 @@ struct Enemy {
     speed: f32,
 }
 
+#[derive(Component)]
+struct Health {
+    hp: f32,
+}
+
+#[derive(Resource)]
+struct SpawnTimer(Timer);
+
 
 fn main() {
     App::new()
         .add_plugins((DefaultPlugins, PhysicsPlugins::default()))
         .add_systems(Startup, setup)
         .add_systems(Update, (movment, rotate_to_mouse, camera_follow, shoot, bullet_lifetime))
-        .add_systems(Update, (enemy_movment, bullet_hit_enemy))
+        .add_systems(Update, (enemy_movment, bullet_hit_enemy, enemy_damage_player, spawn_on_death))
+        .insert_resource(SpawnTimer(Timer::from_seconds(0.0, TimerMode::Once)))
         .run();
 }
 
@@ -67,6 +76,7 @@ fn setup(
         RigidBody::Dynamic,
         Collider::capsule(0.4, 1.4),
         LockedAxes::ROTATION_LOCKED,
+        Health { hp: 20.0 },
         Transform::from_xyz(0.0, 0.0, 0.0),
     ))
     .with_children(|parent| {
@@ -223,4 +233,63 @@ fn bullet_hit_enemy(
             }
         }
     }
+}
+
+fn enemy_damage_player(
+    mut commands: Commands,
+    enemies: Query<&Transform, With<Enemy>>,
+    mut players: Query<(Entity, &Transform, &mut Health), With<Player>>,
+) {
+    let Ok((player_entity, player_transform, mut health)) = players.single_mut() else { return; };
+
+    for enemy_transform in &enemies {
+        let distance = enemy_transform.translation.distance(player_transform.translation);
+        if distance < 1.2 {
+            health.hp -= 0.5; // odejmuj HP co klatkę
+            if health.hp <= 0.0 {
+                println!("GAME OVER!");
+                commands.entity(player_entity).despawn();
+            }
+        }
+    }
+}
+
+fn spawn_on_death(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+    enemies: Query<Entity, With<Enemy>>,
+    mut dead: RemovedComponents<Enemy>,
+) {
+    for _ in dead.read() {
+        // zawsze spawn jeden nowy wróg
+        spawn_enemy(&mut commands, &mut meshes, &mut materials);
+
+        // 30% szans na drugiego
+        if rand::random::<f32>() < 0.3 {
+            spawn_enemy(&mut commands, &mut meshes, &mut materials);
+        }
+    }
+}
+
+fn spawn_enemy(
+    commands: &mut Commands,
+    meshes: &mut ResMut<Assets<Mesh>>,
+    materials: &mut ResMut<Assets<StandardMaterial>>,
+) {
+    use std::f32::consts::PI;
+    let angle = rand::random::<f32>() * 2.0 * PI;
+    let distance = 8.0 + rand::random::<f32>() * 5.0;
+    let x = angle.cos() * distance;
+    let z = angle.sin() * distance;
+
+    commands.spawn((
+        Enemy { health: 24.0, speed: 2.0 },
+        RigidBody::Dynamic,
+        Collider::capsule(0.4, 1.4),
+        LockedAxes::ROTATION_LOCKED,
+        Mesh3d(meshes.add(Capsule3d::new(0.4, 1.4))),
+        MeshMaterial3d(materials.add(Color::srgb(0.8, 0.0, 0.0))),
+        Transform::from_xyz(x, 1.5, z),
+    ));
 }
