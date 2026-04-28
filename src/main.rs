@@ -71,6 +71,7 @@ fn main() {
         .add_systems(Update, reload.run_if(in_state(GameState::Playing)))
         .add_systems(Update, (enemy_movment, bullet_hit_enemy, enemy_damage_player, spawn_on_death).run_if(in_state(GameState::Playing)))
         .add_systems(Update, (setup_animation, animate_player).run_if(in_state(GameState::Playing)))
+        .add_systems(Update, list_animations)
         .insert_resource(AmmoState::default())
         .run();
 }
@@ -145,10 +146,10 @@ fn setup(
     ));
 
     let idle_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation5");
-    let run_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation14");
-    let run_back_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation15");
-    let run_left_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation16");
-    let run_right_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation17");
+    let run_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation16");
+    let run_back_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation17");
+    let run_left_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation18");
+    let run_right_handle: Handle<AnimationClip> = asset_server.load("SWAT.glb#Animation19");
 
     // Build a single AnimationGraph with all clips (recommended)
     let mut graph = AnimationGraph::new();
@@ -469,5 +470,16 @@ fn setup_animation(
             AnimationSetupDone,
         ));
         player.play(lib.idle_gun).repeat();
+    }
+}
+
+fn list_animations(
+    gltf_assets: Res<Assets<Gltf>>,
+    asset_server: Res<AssetServer>,
+) {
+    for (_, gltf) in gltf_assets.iter() {
+        for (name, _) in &gltf.named_animations {
+            println!("Animacja: {}", name);
+        }
     }
 }
