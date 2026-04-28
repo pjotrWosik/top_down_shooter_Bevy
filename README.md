@@ -20,6 +20,8 @@ A simple top-down game built with Bevy 0.18 and Avian Physics 0.6.
 - you can kill em
 - enemies are now spawning around you and after kiling 5 or 7 ur whole map is filled with em
 - some free models rile&player
+- aded animations (they are broken)
+- aded magazine and reload
 
 ## Controls
 
@@ -31,6 +33,7 @@ A simple top-down game built with Bevy 0.18 and Avian Physics 0.6.
 | D | Move right |
 | Mouse | Rotate player |
 | LPM | shoot the gun |
+| R | reload the gun |
 
 ## Project Structure
 
