@@ -48,4 +48,7 @@ Project/
 
 cargo run
 
-i think i can count this project as finished i will no longer update it (i think)
+
+
+
+animations are broken i hawe no idea how animations work so i leave it to you guys these are the real MFP for anyones game hope u make an awasome game learn and use this code
